@@ -5,13 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Recipe Recommendation System</title>
-
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/main.css">
+
+    <title>What's Cooking?</title>
+
+    <script src="/static/js/script.js" defer></script>
 </head>
 
-<body class="bg-red-400">
-    Namaste Dunia!
+<body class="bg-gray-100">
+    <!-- header -->
+    <header class="bg-blue-500 text-white py-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold">What's Cooking?</h1>
+            <p class="text-sm">An ML powered app by US</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Given a list of ingredients, what different recipes can I make?</h2>
+            <p class="mb-4">For example, say I want to use up some food in my apartment, what can I cook?</p>
+            <p class="mb-4">My ML-based model will look through over 4500 recipes to find matches for you...</p>
+
+            <form class="mb-4">
+                <label for="ingredients" class="font-bold">Select the ingredients you would like to cook with:</label>
+                <select id="ingredients" class="block w-full border-gray-300 rounded-md py-2 px-4 mt-1">
+                    <option>Onion</option>
+                    <option>Chorizo</option>
+                    <option>Chicken Thighs</option>
+                    <option>Paella Rice</option>
+                    <option>Frozen Peas</option>
+                    <option>Prawns</option>
+                </select>
+
+                <label for="top3recipes" class="font-bold">Give the top 3 recipes:</label>
+                <input type="checkbox" name="top3recipes" id="top3recipes">
+
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Give me recommendations!</button>
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-300 text-gray-700 py-4">
+        <div class="container mx-auto px-4">
+            <p class="text-center">&copy; Try it out for yourself below!</p>
+        </div>
+    </footer>
 </body>
 
 </html>
