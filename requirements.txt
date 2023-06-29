@@ -3,4 +3,7 @@ pip install flask
 pip install pandas
 pip install requests
 pip install bs4
+pip install nltk
+pip install unidecode
+pip install config
 pip install flask-pymongo

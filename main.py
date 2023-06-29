@@ -17,6 +17,9 @@ def qa():
 
 app.run(debug=True)
 
+# Preprocessing: getting rid of punctuation, removing accents, making everything lowercase, getting rid of Unicode, lemmatization
+# Extracting Features: bag of words (CountVectorizer), TF-IDF (TfidfVectorizer)
+
 # K-Nearest Neighbors algorithm
 
 # Take a picture of the ingredients and extract data
