@@ -24,8 +24,9 @@ To run the Recipe Recommendation System locally, follow these steps:
 1. Clone the repository: git clone https://github.com/your-username/recipe-recommendation-system.git
 2. Install the required dependencies:
 3. Set up the database and populate it with initial data.
-4. Start the Flask development server: flask run
-5. Access the application by opening your web browser and navigating to `http://localhost:5000`.
+4. Start the Flask development server: `npm run wb`
+5. Start the Tailwind development server: `npm run tw`
+7. Access the application by opening your web browser and navigating to `http://localhost:5000`.
 
 ## Contributing
 

@@ -1,84 +1,72 @@
 # Imports
-from bs4 import BeautifulSoup
-import pandas as pd
 import requests
-import smtplib
+from bs4 import BeautifulSoup
 import csv
-import time
 import datetime
+import random
+import pandas as pd
+import re
+import time
+import smtplib
 
+header = ["Number", "URL", "Title", "Cooking Time",
+          "Ingredients", "Directions", "Time"]
+with open('data/Recipe.csv', 'w', newline='', encoding='UTF8') as f:
+    writer = csv.writer(f)  # creating a csv writer object
+    writer.writerow(header)  # writing the fields
 
-URL = 'https://www.amazon.com/crocs-Unisex-Classic-Black-Women/dp/B0014BYHJE/ref=pd_rhf_d_dp_s_pd_crcbs_sccl_1_1/147-6035204-7134748?pd_rd_w=phxBi&content-id=amzn1.sym.31346ea4-6dbc-4ac4-b4f3-cbf5f8cab4b9&pf_rd_p=31346ea4-6dbc-4ac4-b4f3-cbf5f8cab4b9&pf_rd_r=8CMDCVSYKR86RZ1E6D3T&pd_rd_wg=2RUmj&pd_rd_r=65d30b17-e282-4b68-b386-d483dccc8b9d&pd_rd_i=B0014BYHJE&psc=1'
+recipeNo = 0
 
+for i in range(32):
+    URL = f'https://www.pickuplimes.com/recipe/?page={i+1}'
 
-def checkPrice():
-    # Connect to Website
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36", "Accept-Encoding": "gzip, deflate",
-               "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "DNT": "1", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
+    # Fetching html from the website
+    page = requests.get(URL)
+    # BeautifulSoup enables to find the elements/tags in a webpage
+    soup = BeautifulSoup(page.text, "html.parser")
+    # print(soup)
 
-    # Get HTML
-    page = requests.get(URL, headers=headers)
+    # Get all Links
+    allLinks = []
+    for link in soup.find_all('a'):
+        if (link.get('href') and link.get('href') != '#' and link.get('href').startswith('/recipe/') and not (link.get('href') == "/recipe/latest-rss") and not (link.get('href') == "/recipe/")):
+            linkText = "https://www.pickuplimes.com" + link.get('href')
+            allLinks.append(linkText)
+            # print(linkText)
+    # print(allLinks)
 
-    soup1 = BeautifulSoup(page.content, "html.parser")
-    soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
+    for url in allLinks:
+        soup = BeautifulSoup(requests.get(url).content, 'html.parser')
+        title = soup.find("h1").text.strip()
 
-    # Get Data
-    title = soup2.find(id='productTitle').get_text()
-    price = soup2.find(class_='a-offscreen').get_text()
+        cookingtime = soup.find(
+            attrs={"style": "font-weight: 400;"}).getText()
 
-    title = title.strip()
-    price = price.strip()[1:]
+        ingredients = []
+        allIn = soup.find_all(class_="ingredient-container")
+        for ingre in allIn:
+            inData = ingre.text.strip().replace("\n", " ")
+            ingredients.append(inData)
+        # for li in soup.select(‘.ingred-list li’):
+        #     ingred = ‘ ‘.join(li.text.split())
+        #     ingredients.append(ingred)
 
-    # Create a Timestamp
-    today = datetime.date.today()
+        directions = []
+        allSteps = soup.find_all(attrs={"class": "direction"})
+        for step in allSteps:
+            directions.append(step.getText())
 
-    # Create CSV & Read CSV
-    data = [title, price, today]
+        today = datetime.date.today()  # Create a Timestamp
 
-    # Appending data to CSV
-    with open('Web Scrapping/Dataset.csv', 'a+', newline='', encoding='UTF8') as f:
-        writer = csv.writer(f)
-        writer.writerow(data)
+        recipeNo = recipeNo + 1
 
-    # Send Mail if Price Drops
-    if(float(price) < 10):
-        sendMail()
+        data = [recipeNo, url, title, cookingtime,
+                ingredients, directions, today]
+        # print(data)
 
-    # Reading CSV
-    print(pd.read_csv(
-        r'D:\Skill\Coding\Language\Python\Projects\Web Scrapping\Dataset.csv'))
+        with open('data/Recipe.csv', 'a+', newline='', encoding='UTF8') as f:
+            writer = csv.writer(f)  # creating a csv writer object
+            writer.writerow(data)  # appending the new row
 
-
-def sendMail():
-    # Make Connection
-    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    # server.ehlo()
-    server.starttls()
-    # server.ehlo()
-    server.login('manavgoyaltheboss@gmail.com', 'xxx')
-
-    # Message
-    subject = "Now is your chance to Buy!"
-    body = "Don't mess it up! Link here: {URL}"
-    message = f"Subject: {subject}\n\n{body}"
-
-    # Send Email
-    server.sendmail(
-        'manavgoyaltheboss@gmail.com',
-        'manav.goyal.dev@gmail.com',
-        message
-    )
-
-    server.quit()
-
-
-# Creating CSV file and adding Header to it
-header = ['Title', 'Price', 'Date']
-with open('Web Scrapping/Dataset.csv', 'w', newline='', encoding='UTF8') as f:
-    writer = csv.writer(f)
-    writer.writerow(header)
-
-
-while(True):
-    checkPrice()
-    time.sleep(10)
+    print(f"Done for page {i}")
+    time.sleep(random.randint(5, 10, 1))

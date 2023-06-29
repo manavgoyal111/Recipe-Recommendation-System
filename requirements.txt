@@ -1,0 +1,6 @@
+npm install
+pip install flask
+pip install pandas
+pip install requests
+pip install bs4
+pip install flask-pymongo

@@ -16,3 +16,8 @@ def qa():
 
 
 app.run(debug=True)
+
+# K-Nearest Neighbors algorithm
+
+# Take a picture of the ingredients and extract data
+# Write a blog on this project
