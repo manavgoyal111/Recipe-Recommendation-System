@@ -23,32 +23,21 @@
     </header>
 
     <!-- Main Content -->
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-xl font-bold mb-4">Given a list of ingredients, what different recipes can I make?</h2>
-            <p class="mb-4">For example, say I want to use up some food in my apartment, what can I cook?</p>
-            <p class="mb-4">My ML-based model will look through over 4500 recipes to find matches for you...</p>
+    <div class="container mx-auto px-4 py-8 h-screen">
+        <h2 class="text-xl font-bold mb-4">Given a list of ingredients, what different recipes can I make?</h2>
+        <p class="text-gray-600 mb-8">For example, say I want to use up some food in my apartment, what can I cook? My
+            ML based model will look through over 500 recipes to find matches for you...</p>
 
-            <form class="mb-4">
-                <label for="ingredients" class="font-bold">Select the ingredients you would like to cook with:</label>
-                <select id="ingredients" class="block w-full border-gray-300 rounded-md py-2 px-4 mt-1">
-                    <option>Onion</option>
-                    <option>Chorizo</option>
-                    <option>Chicken Thighs</option>
-                    <option>Paella Rice</option>
-                    <option>Frozen Peas</option>
-                    <option>Prawns</option>
-                </select>
+        <form class="mb-8" action="/recipe">
+            <label class="block mb-2 font-bold" for="ingredients">Enter ingredients you would like to cook with
+                (separate ingredients with a comma)</label>
+            <input type="text" id="ingredients" name="ingredients"
+                class="w-full py-2 px-4 rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g., onion, chorizo, chicken thighs, paella rice, frozen peas, prawns">
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 my-4 rounded-md">Give me recommendations!</button>
+        </form>
 
-                <label for="top3recipes" class="font-bold">Give the top 3 recipes:</label>
-                <input type="checkbox" name="top3recipes" id="top3recipes">
-
-                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Give me recommendations!</button>
-            </form>
-
-        </div>
     </div>
-
 
     <!-- Footer -->
     <footer class="bg-gray-300 text-gray-700 py-4">
