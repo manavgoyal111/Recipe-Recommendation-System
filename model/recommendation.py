@@ -22,6 +22,8 @@ def get_recommendations(N, scores):
         recommendation.at[count, 'ingredients'] = ingredient_parser_final(
             df_recipes['Parsed_Ingredients'][i])
         recommendation.at[count, 'url'] = df_recipes['URL'][i]
+        recommendation.at[count, 'ctime'] = df_recipes['Cooking Time'][i]
+        recommendation.at[count, 'directions'] = df_recipes['Directions'][i]
         recommendation.at[count, 'score'] = "{:.3f}".format(float(scores[i]))
         count += 1
     return recommendation

@@ -4,10 +4,10 @@ import requests
 import pickle
 import pandas as pd
 import logging
-
 import sys
 sys.path.append("model")
 import recommendation
+
 
 app = Flask(__name__)
 
@@ -21,25 +21,25 @@ def home():
 def recipe():
     ingredients = request.args.get('ingredients')
     recipe = recommendation.RecSys(ingredients)
-    # logging.warning('This is a debug message')
     # logging.warning(ingredients)
 
     # We need to turn output into JSON.
-    response = {}
-    count = 0
+    recipes = {}
     for index, row in recipe.iterrows():
-        response[count] = {
+        # logging.warning(row)
+        recipes[index] = {
             'recipe': str(row['recipe']),
-            'score': str(row['score']),
+            'score': float(row['score'])*100,
             'ingredients': str(row['ingredients']),
-            'url': str(row['url'])
+            'url': str(row['url']),
+            'directions': row['directions'],
+            'ctime': str(row['ctime'])
         }
-        count += 1
-    return jsonify(response)
+    return render_template("result.html", result=recipes)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(debug=True)
 
 # Preprocessing: getting rid of punctuation, removing accents, making everything lowercase, getting rid of Unicode, lemmatization
 # Extracting Features: TF-IDF (TfidfVectorizer)

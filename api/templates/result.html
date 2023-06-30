@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    <title>What's Cooking?</title>
+
+    <script src="/static/js/script.js" defer></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- header -->
+    <header class="bg-blue-500 text-white py-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold"><a href="/">What's Cooking?</a></h1>
+            <p class="text-sm">An ML powered app by US</p>
+        </div>
+    </header>
+
+    <!-- Recipe Details Page -->
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-4">Recipe Recommendations</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for item in result %}
+            <div class="bg-white rounded-lg p-6 shadow">
+                <h2 class="text-lg font-bold mb-2">{{ result[item].recipe }}</h2>
+                <p class="text-gray-600 mb-4">Cooking Time: {{ result[item].ctime }}</p>
+                <p class="text-gray-600 mb-4">Matching: {{ result[item].score }}%</p>
+                <p class="text-gray-600 mb-4">Directions: {{ result[item].directions }}
+                    <!-- {% for data in result[item].directions %}
+                        <p>{{data}}</p>
+                    {% endfor %} -->
+                </p>
+                <a href="{{ result[item].url }}" target="_blank" class="text-blue-500 font-bold hover:underline">View
+                    Recipe</a>
+                <!-- <p class="text-gray-600 mb-4">Ingredients: {{ result[item].ingredients }}</p> -->
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-300 text-gray-700 py-4">
+        <div class="container mx-auto px-4">
+            <p class="text-center">&copy; Try it out for yourself below!</p>
+        </div>
+    </footer>
+</body>
+
+</html>
