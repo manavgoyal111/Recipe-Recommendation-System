@@ -5,9 +5,7 @@ import csv
 import datetime
 import random
 import pandas as pd
-import re
 import time
-import smtplib
 
 header = ["Number", "URL", "Title", "Cooking Time",
           "Ingredients", "Directions", "Time"]

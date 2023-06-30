@@ -1,20 +1,20 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
-import config
 
 # load in parsed recipe dataset
-df_recipes = pd.read_csv("")
+df_recipes = pd.read_csv("data/Parsed_Recipe.csv")
 # Tfidf needs unicode or string types
-df_recipes['ingredients_parsed'] = df_recipes.ingredients_parsed.values.astype(
+df_recipes['Parsed_Ingredients'] = df_recipes.Parsed_Ingredients.values.astype(
     'U')
 
 # TF-IDF feature extractor
 tfidf = TfidfVectorizer()
-tfidf.fit(df_recipes['ingredients_parsed'])
-tfidf_recipe = tfidf.transform(df_recipes['ingredients_parsed'])
+tfidf.fit(df_recipes['Parsed_Ingredients'])
+tfidf_recipe = tfidf.transform(df_recipes['Parsed_Ingredients'])
+
 # save the tfidf model and encodings
-with open("data/Parsed_Recipe.csv", "wb") as f:
+with open("data/model.pkl", "wb") as f:
     pickle.dump(tfidf, f)
-with open(config.TFIDF_ENCODING_PATH, "wb") as f:
+with open("data/encoding.pkl", "wb") as f:
     pickle.dump(tfidf_recipe, f)
