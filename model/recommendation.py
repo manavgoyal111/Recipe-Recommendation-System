@@ -1,24 +1,10 @@
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
-import pickle
 from parse import ingredient_parser
-
-
-ingredients = "pasta tomato sauce"
-# parse the ingredients using my ingredient_parser
-try:
-    ingredients_parsed = ingredient_parser(ingredients)
-except:
-    ingredients_parsed = ingredient_parser([ingredients])
-
-# use our pretrained tfidf model to encode our input ingredients
-ingredients_tfidf = tfidf.transform([ingredients_parsed])
-# calculate cosine similarity between actual recipe ingreds and test ingreds
-cos_sim = map(lambda x: cosine_similarity(
-    ingredients_tfidf, x), tfidf_encodings)
-scores = list(cos_sim)
-print(scores)
+import pickle
+import unidecode
+import ast
 
 
 def get_recommendations(N, scores):
@@ -32,13 +18,30 @@ def get_recommendations(N, scores):
     count = 0
     for i in top:
         recommendation.at[count, 'recipe'] = title_parser(
-            df_recipes['recipe_name'][i])
+            df_recipes['Title'][i])
         recommendation.at[count, 'ingredients'] = ingredient_parser_final(
-            df_recipes['ingredients'][i])
-        recommendation.at[count, 'url'] = df_recipes['recipe_urls'][i]
+            df_recipes['Parsed_Ingredients'][i])
+        recommendation.at[count, 'url'] = df_recipes['URL'][i]
         recommendation.at[count, 'score'] = "{:.3f}".format(float(scores[i]))
         count += 1
     return recommendation
+
+
+def title_parser(title):
+    title = unidecode.unidecode(title)
+    return title
+
+
+# neaten the ingredients being outputted
+def ingredient_parser_final(ingredient):
+    ingredients = ingredient
+    # if isinstance(ingredient, list):
+    # else:
+    #     ingredients = ast.literal_eval(ingredient)
+
+    ingredients = ','.join(ingredients)
+    ingredients = unidecode.unidecode(ingredients)
+    return ingredients
 
 
 def RecSys(ingredients, N=5):
@@ -50,11 +53,10 @@ def RecSys(ingredients, N=5):
     :return: top 5 reccomendations for cooking recipes
     """
 
-
     # load in tdidf model and encodings
-    with open("data/model.pkl", 'rb') as f:
+    with open("data/encoding.pkl", 'rb') as f:
         tfidf_encodings = pickle.load(f)
-    with open("data/encoding.pkl", "rb") as f:
+    with open("data/model.pkl", "rb") as f:
         tfidf = pickle.load(f)
 
     # parse the ingredients using my ingredient_parser

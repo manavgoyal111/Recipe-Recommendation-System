@@ -9,6 +9,8 @@ df_recipes['Parsed_Ingredients'] = df_recipes.Parsed_Ingredients.values.astype(
     'U')
 
 # TF-IDF feature extractor
+# tfidf = TfidfVectorizer(max_features=500, lowercase=True,
+#                         analyzer='word', ngram_range=(1, 5))
 tfidf = TfidfVectorizer()
 tfidf.fit(df_recipes['Parsed_Ingredients'])
 tfidf_recipe = tfidf.transform(df_recipes['Parsed_Ingredients'])
