@@ -45,9 +45,4 @@ if __name__ == "__main__":
 # Extracting Features: TF-IDF (TfidfVectorizer)
 # Recommendation System: Cosine similarity
 
-# http://127.0.0.1:5000/recipe?ingredients=%20pasta%20tomato%20onion
-
-# Display data in result.html
-# ast library error
-# Take a picture of the ingredients and extract data
-# Write a blog on this project
+# ast library
